@@ -5,8 +5,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const { SendEmail } = require("../services/email/SendEmail");
-const { usersCollection, stripesCollection } = require("../../config/database/db");
+const {
+  usersCollection,
+  stripesCollection,
+} = require("../../config/database/db");
 const { uploadFiles } = require("../utilities/uploadFiles");
+const { Timekoto } = require("timekoto");
 
 //login
 const LoginUser = async (req, res) => {
@@ -37,26 +41,37 @@ const LoginUser = async (req, res) => {
 
 //registration
 const RegisterUser = async (req, res) => {
-  try {
-    const data = JSON.parse(req?.body?.data);
-    const { firstName, lastName, email, password } = data;
+  const data = JSON.parse(req?.body?.data);
 
+  const { firstName, lastName, email, password } = data;
+  try {
+    const query = { email: email };
+    const paymentCheck = await stripesCollection.findOne(query);
     const existingUserCheck = await UserModel.findByEmail(email);
+
+    // if (paymentCheck === null) {
+    //   return res.status(401).json({ error: "user did not pay yet!" });
+    // }
+
     if (existingUserCheck) {
       return res.status(409).json({ error: "user already exists" });
     }
-    //create a new user
+
+    const price = paymentCheck?.price;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await UserModel.createUser(
       firstName,
       lastName,
       email,
-      hashedPassword
+      hashedPassword,
+      price,
+      (timestamp = Timekoto())
     );
+    console.log(newUser);
     res.status(201).json(newUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to create new user");
   }
 };
 
@@ -115,15 +130,15 @@ const getOneUser = async (req, res) => {
 const addOneUser = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
 
-  const { firstName, lastName, email, password, timestamp } = data;
+  const { firstName, lastName, email, password } = data;
   try {
     const query = { email: email };
     const paymentCheck = await stripesCollection.findOne(query);
     const existingUserCheck = await UserModel.findByEmail(email);
 
-    if (paymentCheck === null) {
-      return res.status(401).json({ error: "user did not pay yet!" });
-    }
+    // if (paymentCheck === null) {
+    //   return res.status(401).json({ error: "user did not pay yet!" });
+    // }
 
     if (existingUserCheck) {
       return res.status(409).json({ error: "user already exists" });
@@ -137,7 +152,7 @@ const addOneUser = async (req, res) => {
       email,
       hashedPassword,
       price,
-      timestamp
+      (timestamp = Timekoto())
     );
     console.log(newUser);
     res.status(201).json(newUser);

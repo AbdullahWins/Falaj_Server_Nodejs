@@ -7,6 +7,7 @@ const { adminsCollection } = require("../../config/database/db");
 const AdminModel = require("../models/AdminModel");
 const { SendEmail } = require("../services/email/SendEmail");
 const { uploadFiles } = require("../utilities/uploadFiles");
+const { Timekoto } = require("timekoto");
 
 // login
 const LoginAdmin = async (req, res) => {
@@ -39,15 +40,7 @@ const LoginAdmin = async (req, res) => {
 const RegisterAdmin = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      permissions,
-      status,
-      timestamp,
-    } = data;
+    const { firstName, lastName, email, password, permissions, status } = data;
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
       return res.status(409).json({ error: "Admin already exists" });
@@ -61,7 +54,7 @@ const RegisterAdmin = async (req, res) => {
       hashedPassword,
       permissions,
       status,
-      timestamp
+      (timestamp = Timekoto())
     );
     res.status(201).json(newAdmin);
   } catch (error) {
@@ -124,15 +117,7 @@ const getOneAdmin = async (req, res) => {
 // add new Admin
 const addOneAdmin = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
-  const {
-    firstName,
-    lastName,
-    email,
-    password,
-    permissions,
-    status,
-    timestamp,
-  } = data;
+  const { firstName, lastName, email, password, permissions, status } = data;
   try {
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
@@ -146,7 +131,7 @@ const addOneAdmin = async (req, res) => {
       hashedPassword,
       permissions,
       status,
-      timestamp
+      (timestamp = Timekoto())
     );
     res.status(201).json(newAdmin);
     console.log(newAdmin);
