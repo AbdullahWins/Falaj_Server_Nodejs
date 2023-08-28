@@ -7,6 +7,7 @@ const { ownersCollection } = require("../../config/database/db");
 const OwnerModel = require("../models/OwnerModel");
 const { SendEmail } = require("../services/email/SendEmail");
 const { uploadFiles } = require("../utilities/uploadFiles");
+const { Timekoto } = require("timekoto");
 
 // login
 const LoginOwner = async (req, res) => {
@@ -39,15 +40,7 @@ const LoginOwner = async (req, res) => {
 const RegisterOwner = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      permissions,
-      status,
-      timestamp,
-    } = data;
+    const { firstName, lastName, email, password, permissions, status } = data;
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
     if (existingOwnerCheck) {
       return res.status(409).json({ error: "owner already exists" });
@@ -61,7 +54,7 @@ const RegisterOwner = async (req, res) => {
       hashedPassword,
       permissions,
       status,
-      timestamp
+      (timestamp = Timekoto())
     );
     res.status(201).json(newOwner);
   } catch (error) {
@@ -130,8 +123,7 @@ const addOneOwner = async (req, res) => {
     email,
     password,
     permissions,
-    status,
-    timestamp,
+    status
   } = data;
   try {
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
@@ -146,11 +138,10 @@ const addOneOwner = async (req, res) => {
       hashedPassword,
       permissions,
       status,
-      timestamp
+      (timestamp = Timekoto())
     );
+    console.log("new owner", newOwner);
     res.status(201).json(newOwner);
-    console.log(newOwner);
-    console.log(newOwner);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to create new owner");
