@@ -1,19 +1,20 @@
-Base URL: https://github.com/abdullahwins
+Author: https://github.com/abdullahwins
+Base URL: https://thefalaj.onrender.com
 
 //admin
 
-router.get("/admin/find/:id", authenticateToken, getOneAdmin);
-router.get("/admin/delete/:id", authenticateToken, deleteAdminById);
-router.get("/admin", authenticateToken, getAllAdmins);
-router.get("/admin/types/:typeName", authenticateToken, getAdminsByType);
-router.post("/admin/add", authenticateToken, addOneAdmin); = { firstName, lastName, email, password, permissions, status }
-router.post("/admin/register", RegisterAdmin); = { firstName, lastName, email, password, permissions, status }
-router.post("/admin/login", LoginAdmin);
-router.patch("/admin/edit/:id", authenticateToken, updateAdminById);
-router.post("/admin/reset", sendPasswordResetLink); = { email }
-router.patch("/admin/reset", updateAdminPasswordByEmail); = { email, newPassword }
-router.patch("/admin/resetpassword/:email", updateAdminPasswordByOldPassword); = { oldPassword, newPassword }
-router.delete("/admin/delete/:id", deleteAdminById); {_id}
+router.get("/admins/find/:id", authenticateToken, getOneAdmin);
+router.get("/admins/delete/:id", authenticateToken, deleteAdminById);
+router.get("/admins", authenticateToken, getAllAdmins);
+router.get("/admins/types/:typeName", authenticateToken, getAdminsByType);
+router.post("/admins/add", authenticateToken, addOneAdmin); = { firstName, lastName, email, password, permissions, status }
+router.post("/admins/register", RegisterAdmin); = { firstName, lastName, email, password, permissions, status }
+router.post("/admins/login", LoginAdmin);
+router.patch("/admins/edit/:id", authenticateToken, updateAdminById);
+router.post("/admins/reset", sendPasswordResetLink); = { email }
+router.patch("/admins/reset", updateAdminPasswordByEmail); = { email, newPassword }
+router.patch("/admins/resetpassword/:email", updateAdminPasswordByOldPassword); = { oldPassword, newPassword }
+router.delete("/admins/delete/:id", deleteAdminById); {_id}
 
 //stripe
 
