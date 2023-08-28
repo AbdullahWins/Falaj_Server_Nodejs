@@ -4,9 +4,9 @@ const { ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
-const { uploadFile } = require("../utilities/uploadFiles");
 const { SendEmail } = require("../services/email/SendEmail");
 const { usersCollection, stripesCollection } = require("../../config/database/db");
+const { uploadFiles } = require("../utilities/uploadFiles");
 
 //login
 const LoginUser = async (req, res) => {
@@ -159,7 +159,7 @@ const updateUserById = async (req, res) => {
     let updateData = {};
 
     if (files?.length > 0) {
-      const fileUrls = await uploadFile(files, folderName);
+      const fileUrls = await uploadFiles(files, folderName);
       const fileUrl = fileUrls[0];
       const documentUrl = fileUrls[1];
       updateData = { ...updateData, fileUrl, documentUrl };

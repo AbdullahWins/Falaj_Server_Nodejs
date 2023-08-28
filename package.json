@@ -24,6 +24,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.3",
     "stripe": "^12.11.0",
+    "uniquenaam": "^1.0.2",
     "uuid": "^9.0.0"
   }
 }

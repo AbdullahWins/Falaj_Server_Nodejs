@@ -4,9 +4,9 @@ const { ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { adminsCollection } = require("../../config/database/db");
-const { uploadFile } = require("../utilities/uploadFiles");
 const AdminModel = require("../models/AdminModel");
 const { SendEmail } = require("../services/email/SendEmail");
+const { uploadFiles } = require("../utilities/uploadFiles");
 
 // login
 const LoginAdmin = async (req, res) => {
@@ -169,7 +169,7 @@ const updateAdminById = async (req, res) => {
     let updateData = {};
 
     if (files) {
-      const fileUrls = await uploadFile(files, folderName);
+      const fileUrls = await uploadFiles(files, folderName);
       const fileUrl = fileUrls[0];
       updateData = { ...updateData, fileUrl };
     }

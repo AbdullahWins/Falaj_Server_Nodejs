@@ -1,32 +1,12 @@
 // file uploader
 const { firebaseStorage } = require("../../config/firebase/firebase.config");
-const { generateUniqueFilename } = require("./generateUniqueFilename");
+const { UniqueNaam } = require("uniquenaam");
 
-const uploadFile = (file, folderName) => {
+const uploadFiles = (file, folderName) => {
   return new Promise((resolve, reject) => {
     const bucketName = process.env.FIRE_firebaseStorage_BUCKET_NAME;
     const bucket = firebaseStorage.bucket(bucketName);
-    const uniqueFilename = generateUniqueFilename(file.originalname);
-    const options = {
-      destination: `${folderName}/${uniqueFilename}`,
-      public: true,
-    };
-    bucket.upload(file.path, options, (err, uploadedFile) => {
-      if (err) {
-        reject(err);
-      } else {
-        const fileUrl = uploadedFile.publicUrl();
-        resolve(fileUrl);
-      }
-    });
-  });
-};
-
-const uploadCategories = (file, folderName) => {
-  return new Promise((resolve, reject) => {
-    const bucketName = process.env.FIRE_firebaseStorage_BUCKET_NAME;
-    const bucket = firebaseStorage.bucket(bucketName);
-    const uniqueFilename = generateUniqueFilename(file.originalname);
+    const uniqueFilename = UniqueNaam(file.originalname);
     const options = {
       destination: `${folderName}/${uniqueFilename}`,
       public: true,
@@ -43,6 +23,5 @@ const uploadCategories = (file, folderName) => {
 };
 
 module.exports = {
-  uploadFile,
-  uploadCategories,
+  uploadFiles,
 };
