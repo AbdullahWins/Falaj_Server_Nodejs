@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 const SendEmail = async (receiver, subject, text) => {
   try {
     const info = await transporter.sendMail({
-      from: `"EdenBerry Support" <${process.env.SENDER_EMAIL_ID}>`,
+      from: `"Falaj" <${process.env.SENDER_EMAIL_ID}>`,
       to: receiver,
       subject: subject,
       text: text,
