@@ -5,12 +5,10 @@ const router = express.Router();
 const adminRoutes = require("../adminRoutes");
 const ownerRoutes = require("../ownerRoutes");
 const userRoutes = require("../userRoutes");
-const stripeRoutes = require("../stripeRoutes");
 
 // Routes
 router.use(adminRoutes);
 router.use(ownerRoutes);
 router.use(userRoutes);
-router.use(stripeRoutes);
 
 module.exports = router;

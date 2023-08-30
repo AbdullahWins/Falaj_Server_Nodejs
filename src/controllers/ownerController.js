@@ -1,4 +1,4 @@
-// controllers/ownerController.js
+//controllers/ownerController.js
 
 const { ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
@@ -6,10 +6,10 @@ const jwt = require("jsonwebtoken");
 const { ownersCollection } = require("../../config/database/db");
 const OwnerModel = require("../models/OwnerModel");
 const { SendEmail } = require("../services/email/SendEmail");
-const { uploadFiles } = require("../utilities/uploadFiles");
 const { Timekoto } = require("timekoto");
+const { uploadFile } = require("../utilities/uploadFile");
 
-// login
+//login
 const LoginOwner = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
@@ -36,24 +36,29 @@ const LoginOwner = async (req, res) => {
   }
 };
 
-// registration
+//registration
 const RegisterOwner = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const { firstName, lastName, email, password, permissions, status } = data;
+    const { file } = req;
+    const { fullName, email, password, falajName } = data;
+    //upload the documennt
+    const folderName = "owners";
+    const legalDocumentUrl = await uploadFile(file, folderName);
+    console.log(legalDocumentUrl);
+    //check if the owner already exists
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
     if (existingOwnerCheck) {
       return res.status(409).json({ error: "owner already exists" });
     }
-    // create a new owner
+    //create a new owner
     const hashedPassword = await bcrypt.hash(password, 10);
     const newOwner = await OwnerModel.createOwner(
-      firstName,
-      lastName,
+      fullName,
       email,
       hashedPassword,
-      permissions,
-      status,
+      falajName,
+      legalDocumentUrl,
       (timestamp = Timekoto())
     );
     res.status(201).json(newOwner);
@@ -117,14 +122,7 @@ const getOneOwner = async (req, res) => {
 // add new owner
 const addOneOwner = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
-  const {
-    firstName,
-    lastName,
-    email,
-    password,
-    permissions,
-    status
-  } = data;
+  const { firstName, lastName, email, password, permissions, status } = data;
   try {
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
     if (existingOwnerCheck) {
@@ -160,8 +158,7 @@ const updateOwnerById = async (req, res) => {
     let updateData = {};
 
     if (files) {
-      const fileUrls = await uploadFiles(files, folderName);
-      const fileUrl = fileUrls[0];
+      const fileUrl = await uploadFile(files, folderName);
       updateData = { ...updateData, fileUrl };
     }
     if (password) {

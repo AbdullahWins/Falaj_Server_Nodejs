@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 const { adminsCollection } = require("../../config/database/db");
 const AdminModel = require("../models/AdminModel");
 const { SendEmail } = require("../services/email/SendEmail");
-const { uploadFiles } = require("../utilities/uploadFiles");
 const { Timekoto } = require("timekoto");
+const { uploadFile } = require("../utilities/uploadFile");
 
 // login
 const LoginAdmin = async (req, res) => {
@@ -147,15 +147,14 @@ const updateAdminById = async (req, res) => {
   try {
     const id = req.params.id;
     const query = { _id: new ObjectId(id) };
-    const { files } = req;
+    const { file } = req;
     const data = JSON.parse(req?.body?.data);
     const { password, ...additionalData } = data;
     const folderName = "admins";
     let updateData = {};
 
-    if (files) {
-      const fileUrls = await uploadFiles(files, folderName);
-      const fileUrl = fileUrls[0];
+    if (file) {
+      const fileUrl = await uploadFile(file, folderName);
       updateData = { ...updateData, fileUrl };
     }
     if (password) {

@@ -5,12 +5,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const { SendEmail } = require("../services/email/SendEmail");
-const {
-  usersCollection,
-  stripesCollection,
-} = require("../../config/database/db");
-const { uploadFiles } = require("../utilities/uploadFiles");
+const { usersCollection } = require("../../config/database/db");
 const { Timekoto } = require("timekoto");
+const { uploadFile } = require("../utilities/uploadFile");
 
 //login
 const LoginUser = async (req, res) => {
@@ -129,10 +126,8 @@ const updateUserById = async (req, res) => {
     let updateData = {};
 
     if (files?.length > 0) {
-      const fileUrls = await uploadFiles(files, folderName);
-      const fileUrl = fileUrls[0];
-      const documentUrl = fileUrls[1];
-      updateData = { ...updateData, fileUrl, documentUrl };
+      const fileUrl = await uploadFile(files, folderName);
+      updateData = { ...updateData, fileUrl };
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
