@@ -2,13 +2,11 @@ const { ObjectID } = require("mongodb");
 const { usersCollection } = require("../../config/database/db");
 
 class UserModel {
-  constructor(id, firstName, lastName, email, password, price, timestamp) {
+  constructor(id, fullName, email, password, timestamp) {
     this._id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.fullName = fullName;
     this.email = email;
     this.password = password;
-    this.price = price;
     this.timestamp = timestamp;
   }
 
@@ -23,15 +21,8 @@ class UserModel {
     return user;
   }
 
-  static async createUser(
-    firstName,
-    lastName,
-    email,
-    password,
-    price,
-    timestamp
-  ) {
-    const newUser = { firstName, lastName, email, password, price, timestamp };
+  static async createUser(fullName, email, password, timestamp) {
+    const newUser = { fullName, email, password, timestamp };
     console.log(newUser);
     const result = await usersCollection.insertOne(newUser);
     const createdUser = {
