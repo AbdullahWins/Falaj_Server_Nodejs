@@ -119,32 +119,6 @@ const getOneOwner = async (req, res) => {
   }
 };
 
-// add new owner
-const addOneOwner = async (req, res) => {
-  const data = JSON.parse(req?.body?.data);
-  const { firstName, lastName, email, password, permissions, status } = data;
-  try {
-    const existingOwnerCheck = await OwnerModel.findByEmail(email);
-    if (existingOwnerCheck) {
-      return res.status(409).json({ error: "owner already exists" });
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newOwner = await OwnerModel.createOwner(
-      firstName,
-      lastName,
-      email,
-      hashedPassword,
-      permissions,
-      status,
-      (timestamp = Timekoto())
-    );
-    console.log("new owner", newOwner);
-    res.status(201).json(newOwner);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to create new owner");
-  }
-};
 
 // update one owner
 const updateOwnerById = async (req, res) => {
@@ -281,7 +255,6 @@ module.exports = {
   getOneOwner,
   getOwnersByType,
   getAllOwners,
-  addOneOwner,
   updateOwnerById,
   sendPasswordResetLink,
   updateOwnerPasswordByEmail,

@@ -4,7 +4,6 @@ const {
   getOneOwner,
   getOwnersByType,
   getAllOwners,
-  addOneOwner,
   updateOwnerById,
   sendPasswordResetLink,
   updateOwnerPasswordByEmail,
@@ -18,7 +17,6 @@ router.get("/owners/find/:id", getOneOwner);
 router.get("/owners/delete/:id", deleteOwnerById);
 router.get("/owners", getAllOwners);
 router.get("/owners/types/:typeName", getOwnersByType);
-router.post("/owners/add", addOneOwner);
 router.post("/owners/register", RegisterOwner);
 router.post("/owners/login", LoginOwner);
 router.patch("/owners/edit/:id", updateOwnerById);
