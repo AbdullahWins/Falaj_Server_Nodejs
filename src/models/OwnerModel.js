@@ -4,21 +4,19 @@ const { ownersCollection } = require("../../config/database/db");
 class OwnerModel {
   constructor(
     id,
-    firstName,
-    lastName,
+    fullName,
     email,
     password,
-    permissions,
-    status,
+    falajName,
+    legalDocumentUrl,
     timestamp
   ) {
     this._id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.fullName = fullName;
     this.email = email;
     this.password = password;
-    this.permissions = permissions;
-    this.status = status;
+    this.falajName = falajName;
+    this.legalDocumentUrl = legalDocumentUrl;
     this.timestamp = timestamp;
   }
 
@@ -34,21 +32,19 @@ class OwnerModel {
   }
 
   static async createOwner(
-    firstName,
-    lastName,
+    fullName,
     email,
     password,
-    permissions,
-    status,
+    falajName,
+    legalDocumentUrl,
     timestamp
   ) {
     const newOwner = {
-      firstName,
-      lastName,
+      fullName,
       email,
       password,
-      permissions,
-      status,
+      falajName,
+      legalDocumentUrl,
       timestamp,
     };
     const result = await ownersCollection.insertOne(newOwner);

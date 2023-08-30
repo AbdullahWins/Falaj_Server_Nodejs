@@ -17,12 +17,10 @@ const db = client.db(process.env.DATABASE_NAME);
 const adminsCollection = db.collection("adminsCollection");
 const ownersCollection = db.collection("ownersCollection");
 const usersCollection = db.collection("usersCollection");
-const stripesCollection = db.collection("stripesCollection");
 
 module.exports = {
   connect,
   adminsCollection,
   ownersCollection,
   usersCollection,
-  stripesCollection,
 };
