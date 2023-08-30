@@ -9,6 +9,7 @@ class OwnerModel {
     password,
     falajName,
     legalDocumentUrl,
+    status,
     timestamp
   ) {
     this._id = id;
@@ -17,6 +18,7 @@ class OwnerModel {
     this.password = password;
     this.falajName = falajName;
     this.legalDocumentUrl = legalDocumentUrl;
+    this.status = status;
     this.timestamp = timestamp;
   }
 
@@ -37,6 +39,7 @@ class OwnerModel {
     password,
     falajName,
     legalDocumentUrl,
+    status,
     timestamp
   ) {
     const newOwner = {
@@ -45,6 +48,7 @@ class OwnerModel {
       password,
       falajName,
       legalDocumentUrl,
+      status,
       timestamp,
     };
     const result = await ownersCollection.insertOne(newOwner);
