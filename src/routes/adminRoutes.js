@@ -5,7 +5,6 @@ const {
   getOneAdmin,
   getAllAdmins,
   getAdminsByType,
-  addOneAdmin,
   LoginAdmin,
   RegisterAdmin,
   updateAdminById,
@@ -19,7 +18,6 @@ router.get("/admins/find/:id", authenticateToken, getOneAdmin);
 router.get("/admins/delete/:id", authenticateToken, deleteAdminById);
 router.get("/admins", authenticateToken, getAllAdmins);
 router.get("/admins/types/:typeName", authenticateToken, getAdminsByType);
-router.post("/admins/add", authenticateToken, addOneAdmin);
 router.post("/admins/register", RegisterAdmin);
 router.post("/admins/login", LoginAdmin);
 router.patch("/admins/edit/:id", authenticateToken, updateAdminById);

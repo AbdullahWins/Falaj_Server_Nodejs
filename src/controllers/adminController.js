@@ -114,34 +114,6 @@ const getOneAdmin = async (req, res) => {
   }
 };
 
-// add new Admin
-const addOneAdmin = async (req, res) => {
-  const data = JSON.parse(req?.body?.data);
-  const { firstName, lastName, email, password, permissions, status } = data;
-  try {
-    const existingAdminCheck = await AdminModel.findByEmail(email);
-    if (existingAdminCheck) {
-      return res.status(409).json({ error: "admin already exists" });
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await AdminModel.createAdmin(
-      firstName,
-      lastName,
-      email,
-      hashedPassword,
-      permissions,
-      status,
-      (timestamp = Timekoto())
-    );
-    res.status(201).json(newAdmin);
-    console.log(newAdmin);
-    console.log(newAdmin);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to create new admin");
-  }
-};
-
 // update one Admin
 const updateAdminById = async (req, res) => {
   try {
@@ -277,7 +249,6 @@ module.exports = {
   getOneAdmin,
   getAdminsByType,
   getAllAdmins,
-  addOneAdmin,
   updateAdminById,
   sendPasswordResetLink,
   updateAdminPasswordByEmail,
