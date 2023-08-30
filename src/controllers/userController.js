@@ -43,28 +43,19 @@ const LoginUser = async (req, res) => {
 const RegisterUser = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
 
-  const { firstName, lastName, email, password } = data;
+  const { fullName, email, password } = data;
   try {
-    const query = { email: email };
-    const paymentCheck = await stripesCollection.findOne(query);
+    //check if user already exists
     const existingUserCheck = await UserModel.findByEmail(email);
-
-    // if (paymentCheck === null) {
-    //   return res.status(401).json({ error: "user did not pay yet!" });
-    // }
-
     if (existingUserCheck) {
       return res.status(409).json({ error: "user already exists" });
     }
-
-    const price = paymentCheck?.price;
+    //hash password
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await UserModel.createUser(
-      firstName,
-      lastName,
+      fullName,
       email,
       hashedPassword,
-      price,
       (timestamp = Timekoto())
     );
     console.log(newUser);
@@ -89,7 +80,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-//get User by types
+//get Users by types
 const getUsersByType = async (req, res) => {
   try {
     const userTypeName = req?.params?.typeName;
@@ -123,42 +114,6 @@ const getOneUser = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
-  }
-};
-
-//add new user
-const addOneUser = async (req, res) => {
-  const data = JSON.parse(req?.body?.data);
-
-  const { firstName, lastName, email, password } = data;
-  try {
-    const query = { email: email };
-    const paymentCheck = await stripesCollection.findOne(query);
-    const existingUserCheck = await UserModel.findByEmail(email);
-
-    // if (paymentCheck === null) {
-    //   return res.status(401).json({ error: "user did not pay yet!" });
-    // }
-
-    if (existingUserCheck) {
-      return res.status(409).json({ error: "user already exists" });
-    }
-
-    const price = paymentCheck?.price;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await UserModel.createUser(
-      firstName,
-      lastName,
-      email,
-      hashedPassword,
-      price,
-      (timestamp = Timekoto())
-    );
-    console.log(newUser);
-    res.status(201).json(newUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to create new user");
   }
 };
 
@@ -294,7 +249,6 @@ module.exports = {
   getOneUser,
   getAllUsers,
   getUsersByType,
-  addOneUser,
   LoginUser,
   RegisterUser,
   updateUserById,

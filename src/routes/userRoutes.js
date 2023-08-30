@@ -4,7 +4,6 @@ const {
   getOneUser,
   getAllUsers,
   getUsersByType,
-  addOneUser,
   LoginUser,
   RegisterUser,
   updateUserById,
@@ -17,7 +16,6 @@ const {
 router.get("/users/find/:id", getOneUser);
 router.get("/users", getAllUsers);
 router.get("/users/types/:typeName", getUsersByType);
-router.post("/users/add", addOneUser);
 router.post("/users/login", LoginUser);
 router.post("/users/register", RegisterUser);
 router.patch("/users/edit/:id", updateUserById);
