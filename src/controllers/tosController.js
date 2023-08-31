@@ -6,7 +6,8 @@ const { Timekoto } = require("timekoto");
 //get single TOS
 const getOneTOS = async (req, res) => {
   try {
-    const TOS = await TOSCollection.findOne({ id: 1 });
+    const tosId = 1;
+    const TOS = await TOSCollection.findOne({ tosId: tosId });
     if (!TOS) {
       res.status(404).send({ error: "TOS not found" });
     } else {
@@ -22,6 +23,7 @@ const getOneTOS = async (req, res) => {
 //add new TOS
 const addOneTOS = async (req, res) => {
   try {
+    const tosId = 1;
     const data = JSON.parse(req?.body?.data);
     const { tos } = data;
     //incomplete inputs
@@ -30,14 +32,14 @@ const addOneTOS = async (req, res) => {
     }
     //check existing
     const existingTOSCheck = await TOSCollection.findOne({
-      id: 1,
+      tosId: tosId,
     });
     if (existingTOSCheck) {
       return res.status(409).json({ error: "TOS already exists" });
     }
     const formattedData = {
       tos,
-      id: 1,
+      tosId,
       timestamp: Timekoto(),
     };
     const result = await TOSCollection.insertOne(formattedData);
@@ -55,7 +57,8 @@ const addOneTOS = async (req, res) => {
 //update one TOS
 const updateTOSById = async (req, res) => {
   try {
-    const query = { id: 1 };
+    const tosId = 1;
+    const query = { tosId: tosId };
     const data = JSON.parse(req?.body?.data);
     const { tos } = data;
 
@@ -65,7 +68,7 @@ const updateTOSById = async (req, res) => {
     }
 
     //update privacy policy
-    updateData = { id: 1, tos };
+    updateData = { tosId, tos };
     const result = await TOSCollection.updateOne(query, {
       $set: updateData,
     });
@@ -82,15 +85,15 @@ const updateTOSById = async (req, res) => {
 //delete one TOS
 const deleteOneTOSById = async (req, res) => {
   try {
-    const id = 1;
-    const query = { id: id };
+    const tosId = 1;
+    const query = { tosId: tosId };
     const result = await TOSCollection.deleteOne(query);
     console.log(result);
     if (result?.deletedCount === 0) {
-      console.log("no TOS found with this id:", id);
+      console.log("no TOS found with this id:", tosId);
       res.send({ error: "no TOS found with this id!" });
     } else {
-      console.log("TOS deleted:", id);
+      console.log("TOS deleted:", tosId);
       res.status(200).send(result);
     }
   } catch (err) {
