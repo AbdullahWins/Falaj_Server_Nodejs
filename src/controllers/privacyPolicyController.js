@@ -1,29 +1,14 @@
 // Controllers/privacyPolicyController.js
 
-const { ObjectId } = require("mongodb");
 const { privacyPoliciesCollection } = require("../../config/database/db");
 const { Timekoto } = require("timekoto");
-
-//get all privacyPolicy
-const getAllPrivacyPolicies = async (req, res) => {
-  try {
-    const query = {};
-    const cursor = privacyPoliciesCollection.find(query);
-    const privacyPolicies = await cursor.toArray();
-    console.log(`Found ${privacyPolicies?.length} privacyPolicies`);
-    res.send(privacyPolicies);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: "Server Error" });
-  }
-};
 
 //get single privacyPolicy
 const getOnePrivacyPolicy = async (req, res) => {
   try {
-    const privacyPolicyId = req.params.id;
+    const privacyPolicyId = 1;
     const privacyPolicy = await privacyPoliciesCollection.findOne({
-      _id: new ObjectId(privacyPolicyId),
+      privacyPolicyId: privacyPolicyId,
     });
     if (!privacyPolicy) {
       res.status(404).send({ error: "privacyPolicy not found" });
@@ -48,14 +33,14 @@ const addOnePrivacyPolicy = async (req, res) => {
     }
     //check existing
     const existingPrivacyPolicyCheck = await privacyPoliciesCollection.findOne({
-      id: 1,
+      privacyPolicyId: 1,
     });
     if (existingPrivacyPolicyCheck) {
       return res.status(409).json({ error: "Privacy policy already exists" });
     }
     const formattedData = {
       privacyPolicy,
-      id: 1,
+      privacyPolicyId: 1,
       timestamp: Timekoto(),
     };
     const result = await privacyPoliciesCollection.insertOne(formattedData);
@@ -73,9 +58,7 @@ const addOnePrivacyPolicy = async (req, res) => {
 //update one privacyPolicy
 const updatePrivacyPolicyById = async (req, res) => {
   try {
-    // const id = req.params.id;
-    // console.log(id);
-    const query = { id: 1 };
+    const query = { privacyPolicyId: 1 };
     const data = JSON.parse(req?.body?.data);
     const { privacyPolicy } = data;
 
@@ -85,7 +68,7 @@ const updatePrivacyPolicyById = async (req, res) => {
     }
 
     //update privacy policy
-    updateData = { id: 1, privacyPolicy };
+    updateData = { privacyPolicyId: 1, privacyPolicy };
     const result = await privacyPoliciesCollection.updateOne(query, {
       $set: updateData,
     });
@@ -102,15 +85,15 @@ const updatePrivacyPolicyById = async (req, res) => {
 //delete one privacyPolicy
 const deleteOnePrivacyPolicyById = async (req, res) => {
   try {
-    const id = req.params.id;
-    const query = { _id: new ObjectId(id) };
+    const privacyPolicyId = 1;
+    const query = { privacyPolicyId: privacyPolicyId };
     const result = await privacyPoliciesCollection.deleteOne(query);
     console.log(result);
     if (result?.deletedCount === 0) {
-      console.log("no privacyPolicy found with this id:", id);
+      console.log("no privacyPolicy found with this id:", privacyPolicyId);
       res.send({ error: "no privacyPolicy found with this id!" });
     } else {
-      console.log("privacyPolicy deleted:", id);
+      console.log("privacyPolicy deleted:", privacyPolicyId);
       res.status(200).send(result);
     }
   } catch (err) {
@@ -120,7 +103,6 @@ const deleteOnePrivacyPolicyById = async (req, res) => {
 };
 
 module.exports = {
-  getAllPrivacyPolicies,
   getOnePrivacyPolicy,
   addOnePrivacyPolicy,
   updatePrivacyPolicyById,
