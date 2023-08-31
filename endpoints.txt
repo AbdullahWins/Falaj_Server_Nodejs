@@ -2,36 +2,52 @@ Author: https://github.com/abdullahwins
 Base URL: https://thefalaj.onrender.com
 
 //admin
-
 router.get("/admins/find/:id", authenticateToken, getOneAdmin);
 router.get("/admins/delete/:id", authenticateToken, deleteAdminById);
 router.get("/admins", authenticateToken, getAllAdmins);
 router.get("/admins/types/:typeName", authenticateToken, getAdminsByType);
-router.post("/admins/add", authenticateToken, addOneAdmin); = { firstName, lastName, email, password, permissions, status }
-router.post("/admins/register", RegisterAdmin); = { firstName, lastName, email, password, permissions, status }
-router.post("/admins/login", LoginAdmin);
+router.post("/admins/register", RegisterAdmin); = { fullName, email, password }
+router.post("/admins/login", LoginAdmin); = { email, password }
 router.patch("/admins/edit/:id", authenticateToken, updateAdminById);
-router.post("/admins/reset", sendPasswordResetLink); = { email }
-router.patch("/admins/reset", updateAdminPasswordByEmail); = { email, newPassword }
-router.patch("/admins/resetpassword/:email", updateAdminPasswordByOldPassword); = { oldPassword, newPassword }
-router.delete("/admins/delete/:id", deleteAdminById); {_id}
+router.post("/admins/reset", sendPasswordResetLink);
+router.patch("/admins/resetpassword/:email", updateAdminPasswordByOldPassword);
+router.patch("/admins/reset", updateAdminPasswordByEmail);
+router.delete("/admins/delete/:id", deleteAdminById);
 
-//stripe
+//owner
+router.get("/owners/find/:id", getOneOwner);
+router.get("/owners/delete/:id", deleteOwnerById);
+router.get("/owners", getAllOwners);
+router.get("/owners/types/:typeName", getOwnersByType);
+router.post("/owners/register", RegisterOwner); = { fullName, email, password, falajName }
+router.post("/owners/login", LoginOwner); = { email, password }
+router.patch("/owners/edit/:id", updateOwnerById);
+router.post("/owners/reset", sendPasswordResetLink);
+router.patch("/owners/resetpassword/:email", updateOwnerPasswordByOldPassword);
+router.patch("/owners/reset", updateOwnerPasswordByEmail);
+router.delete("/owners/delete/:id", deleteOwnerById);
 
-router.get("/stripe", getAllWhitelistedCustomers);
-router.get("/stripe/find/:email", checkWhitelistedCustomersByEmail);
-router.post("/stripe/paymentsuccessful",express.raw({ type: "application/json" }),handleStripeWebhookOnSuccess);
-
-//users
-
+//user
 router.get("/users/find/:id", getOneUser);
-router.get("/users/types/:typeName", getUsersByType);
 router.get("/users", getAllUsers);
-router.post("/users/add", addOneUser); = { firstName, lastName, email, password }
+router.get("/users/types/:typeName", getUsersByType);
+router.post("/users/register", RegisterUser); = { fullName, email, password }
+router.post("/users/login", LoginUser); = { email, password }
 router.patch("/users/edit/:id", updateUserById);
-router.post("/users/reset", sendPasswordResetLink); = { email }
-router.patch("/users/reset", updateUserPasswordByEmail); = { email, newPassword }
-router.patch("/users/resetpassword/:email", updateUserPasswordByOldPassword); = { oldPassword, newPassword }
-router.post("/users/login", LoginUser);
-router.post("/users/register", RegisterUser); = { firstName, lastName, email, password }
-router.get("/users/delete/:id", deleteUserById);
+router.post("/users/reset", sendPasswordResetLink);
+router.patch("/users/reset", updateUserPasswordByEmail);
+router.patch("/users/resetpassword/:email", updateUserPasswordByOldPassword);
+router.delete("/users/delete/:id", deleteUserById);
+
+//falaj
+router.get("/owners/find/:id", getOneOwner);
+router.get("/owners/delete/:id", deleteOwnerById);
+router.get("/owners", getAllOwners);
+router.get("/owners/types/:typeName", getOwnersByType);
+router.post("/owners/register", RegisterOwner);
+router.post("/owners/login", LoginOwner);
+router.patch("/owners/edit/:id", updateOwnerById);
+router.post("/owners/reset", sendPasswordResetLink);
+router.patch("/owners/resetpassword/:email", updateOwnerPasswordByOldPassword);
+router.patch("/owners/reset", updateOwnerPasswordByEmail);
+router.delete("/owners/delete/:id", deleteOwnerById);

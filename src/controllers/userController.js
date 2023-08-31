@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const { SendEmail } = require("../services/email/SendEmail");
 const { usersCollection } = require("../../config/database/db");
-const { Timekoto } = require("timekoto");
 const { uploadFile } = require("../utilities/uploadFile");
 
 //login
@@ -52,8 +51,7 @@ const RegisterUser = async (req, res) => {
     const newUser = await UserModel.createUser(
       fullName,
       email,
-      hashedPassword,
-      (timestamp = Timekoto())
+      hashedPassword
     );
     console.log(newUser);
     res.status(201).json(newUser);

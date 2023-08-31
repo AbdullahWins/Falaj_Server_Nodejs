@@ -1,25 +1,15 @@
 const { ObjectID } = require("mongodb");
 const { ownersCollection } = require("../../config/database/db");
+const { Timekoto } = require("timekoto");
 
 class OwnerModel {
-  constructor(
-    id,
-    fullName,
-    email,
-    password,
-    falajName,
-    legalDocumentUrl,
-    status,
-    timestamp
-  ) {
+  constructor(id, fullName, email, password, falajName, legalDocumentUrl) {
     this._id = id;
     this.fullName = fullName;
     this.email = email;
     this.password = password;
     this.falajName = falajName;
     this.legalDocumentUrl = legalDocumentUrl;
-    this.status = status;
-    this.timestamp = timestamp;
   }
 
   static async findByEmail(email) {
@@ -38,9 +28,7 @@ class OwnerModel {
     email,
     password,
     falajName,
-    legalDocumentUrl,
-    status,
-    timestamp
+    legalDocumentUrl
   ) {
     const newOwner = {
       fullName,
@@ -48,8 +36,8 @@ class OwnerModel {
       password,
       falajName,
       legalDocumentUrl,
-      status,
-      timestamp,
+      status: "inactive",
+      timestamp: Timekoto(),
     };
     const result = await ownersCollection.insertOne(newOwner);
     const createdOwner = {

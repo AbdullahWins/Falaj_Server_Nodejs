@@ -1,13 +1,13 @@
 const { ObjectID } = require("mongodb");
 const { usersCollection } = require("../../config/database/db");
+const { Timekoto } = require("timekoto");
 
 class UserModel {
-  constructor(id, fullName, email, password, timestamp) {
+  constructor(id, fullName, email, password) {
     this._id = id;
     this.fullName = fullName;
     this.email = email;
     this.password = password;
-    this.timestamp = timestamp;
   }
 
   static async findByEmail(email) {
@@ -21,8 +21,8 @@ class UserModel {
     return user;
   }
 
-  static async createUser(fullName, email, password, timestamp) {
-    const newUser = { fullName, email, password, timestamp };
+  static async createUser(fullName, email, password) {
+    const newUser = { fullName, email, password, timestamp: Timekoto() };
     console.log(newUser);
     const result = await usersCollection.insertOne(newUser);
     const createdUser = {
