@@ -3,13 +3,22 @@ const { ownersCollection } = require("../../config/database/db");
 const { Timekoto } = require("timekoto");
 
 class OwnerModel {
-  constructor(id, fullName, email, password, falajName, legalDocumentUrl) {
+  constructor(
+    id,
+    fullName,
+    email,
+    accountNumber,
+    falajName,
+    legalDocumentUrl,
+    password
+  ) {
     this._id = id;
     this.fullName = fullName;
     this.email = email;
-    this.password = password;
+    this.accountNumber = accountNumber;
     this.falajName = falajName;
     this.legalDocumentUrl = legalDocumentUrl;
+    this.password = password;
   }
 
   static async findByEmail(email) {
@@ -26,16 +35,18 @@ class OwnerModel {
   static async createOwner({
     fullName,
     email,
-    hashedPassword,
+    accountNumber,
     falajName,
     legalDocumentUrl,
+    hashedPassword,
   }) {
     const newOwner = {
       fullName,
       email,
-      password: hashedPassword,
+      accountNumber,
       falajName,
       legalDocumentUrl,
+      password: hashedPassword,
       status: "inactive",
       timestamp: Timekoto(),
     };

@@ -41,7 +41,7 @@ const RegisterOwner = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
     const { file } = req;
-    const { fullName, email, password, falajName } = data;
+    const { fullName, email, accountNumber, falajName, password } = data;
     let legalDocumentUrl = "";
     //check if the owner already exists
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
@@ -61,6 +61,7 @@ const RegisterOwner = async (req, res) => {
       email,
       hashedPassword,
       falajName,
+      accountNumber,
       legalDocumentUrl,
     };
     const newOwner = await OwnerModel.createOwner(newOwnerData);

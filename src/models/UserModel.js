@@ -3,10 +3,11 @@ const { usersCollection } = require("../../config/database/db");
 const { Timekoto } = require("timekoto");
 
 class UserModel {
-  constructor(id, fullName, email, password) {
+  constructor(id, fullName, email, accountNumber, password) {
     this._id = id;
     this.fullName = fullName;
     this.email = email;
+    this.accountNumber = accountNumber;
     this.password = password;
   }
 
@@ -21,10 +22,11 @@ class UserModel {
     return user;
   }
 
-  static async createUser({ fullName, email, hashedPassword }) {
+  static async createUser({ fullName, email, accountNumber, hashedPassword }) {
     const newUser = {
       fullName,
       email,
+      accountNumber,
       password: hashedPassword,
       timestamp: Timekoto(),
     };

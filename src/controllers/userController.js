@@ -39,7 +39,7 @@ const LoginUser = async (req, res) => {
 const RegisterUser = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
 
-  const { fullName, email, password } = data;
+  const { fullName, email, accountNumber, password } = data;
   try {
     //check if user already exists
     const existingUserCheck = await UserModel.findByEmail(email);
@@ -48,7 +48,7 @@ const RegisterUser = async (req, res) => {
     }
     //hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUserData = { fullName, email, hashedPassword };
+    const newUserData = { fullName, email, accountNumber, hashedPassword };
     const newUser = await UserModel.createUser(newUserData);
     console.log(newUser);
     res.status(201).json(newUser);
