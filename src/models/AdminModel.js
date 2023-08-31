@@ -1,25 +1,13 @@
 const { ObjectID } = require("mongodb");
 const { adminsCollection } = require("../../config/database/db");
+const { Timekoto } = require("timekoto");
 
 class AdminModel {
-  constructor(
-    id,
-    firstName,
-    lastName,
-    email,
-    password,
-    permissions,
-    status,
-    timestamp
-  ) {
+  constructor(id, fullName, email, password) {
     this._id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.fullName = fullName;
     this.email = email;
     this.password = password;
-    this.permissions = permissions;
-    this.status = status;
-    this.timestamp = timestamp;
   }
 
   static async findByEmail(email) {
@@ -33,24 +21,8 @@ class AdminModel {
     return admin;
   }
 
-  static async createAdmin(
-    firstName,
-    lastName,
-    email,
-    password,
-    permissions,
-    status,
-    timestamp
-  ) {
-    const newAdmin = {
-      firstName,
-      lastName,
-      email,
-      password,
-      permissions,
-      status,
-      timestamp,
-    };
+  static async createAdmin(fullName, email, password) {
+    const newAdmin = { fullName, email, password, timestamp: Timekoto() };
     const result = await adminsCollection.insertOne(newAdmin);
     const createdAdmin = {
       _id: result.insertedId,

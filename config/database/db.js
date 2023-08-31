@@ -17,10 +17,12 @@ const db = client.db(process.env.DATABASE_NAME);
 const adminsCollection = db.collection("adminsCollection");
 const ownersCollection = db.collection("ownersCollection");
 const usersCollection = db.collection("usersCollection");
+const falajesCollection = db.collection("falajesCollection");
 
 module.exports = {
   connect,
   adminsCollection,
   ownersCollection,
   usersCollection,
+  falajesCollection,
 };

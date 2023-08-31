@@ -40,7 +40,7 @@ const LoginAdmin = async (req, res) => {
 const RegisterAdmin = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const { firstName, lastName, email, password, permissions, status } = data;
+    const { fullName, email, password } = data;
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
       return res.status(409).json({ error: "Admin already exists" });
@@ -48,13 +48,9 @@ const RegisterAdmin = async (req, res) => {
     // create a new Admin
     const hashedPassword = await bcrypt.hash(password, 10);
     const newAdmin = await AdminModel.createAdmin(
-      firstName,
-      lastName,
+      fullName,
       email,
-      hashedPassword,
-      permissions,
-      status,
-      (timestamp = Timekoto())
+      hashedPassword
     );
     res.status(201).json(newAdmin);
   } catch (error) {

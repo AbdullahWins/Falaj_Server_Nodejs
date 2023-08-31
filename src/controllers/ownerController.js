@@ -42,14 +42,17 @@ const RegisterOwner = async (req, res) => {
     const data = JSON.parse(req?.body?.data);
     const { file } = req;
     const { fullName, email, password, falajName } = data;
-    //upload the documennt
-    const folderName = "owners";
-    const legalDocumentUrl = await uploadFile(file, folderName);
-    console.log(legalDocumentUrl);
+    let legalDocumentUrl = "";
     //check if the owner already exists
     const existingOwnerCheck = await OwnerModel.findByEmail(email);
     if (existingOwnerCheck) {
       return res.status(409).json({ error: "owner already exists" });
+    }
+    if (file) {
+      //upload the document
+      const folderName = "owners";
+      legalDocumentUrl = await uploadFile(file, folderName);
+      console.log(legalDocumentUrl);
     }
     //create a new owner
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -58,8 +61,7 @@ const RegisterOwner = async (req, res) => {
       email,
       hashedPassword,
       falajName,
-      legalDocumentUrl,
-      (timestamp = Timekoto())
+      legalDocumentUrl
     );
     res.status(201).json(newOwner);
   } catch (error) {
@@ -118,7 +120,6 @@ const getOneOwner = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-
 
 // update one owner
 const updateOwnerById = async (req, res) => {
