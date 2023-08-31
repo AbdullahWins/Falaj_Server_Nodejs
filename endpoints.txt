@@ -51,5 +51,12 @@ router.delete("/falajes/delete/:id", deleteOneFalajById);
 router.get("/privacypolicies", getAllPrivacyPolicies);
 router.get("/privacypolicies/find/:id", getOnePrivacyPolicy);
 router.post("/privacypolicies/add", addOnePrivacyPolicy); = { privacyPolicy }
-router.patch("/privacypolicies/update/:id", updatePrivacyPolicyById);
+router.patch("/privacypolicies/update/:id", updatePrivacyPolicyById); = { privacyPolicy }
 router.delete("/privacypolicies/delete/:id", deleteOnePrivacyPolicyById);
+
+//TOS
+router.get("/tos", getAllTOS);
+router.get("/tos/find/:id", getOneTOS);
+router.post("/tos/add", addOneTOS); = {tos}
+router.patch("/tos/update/:id", updateTOSById); = {tos}
+router.delete("/tos/delete/:id", deleteOneTOSById);
