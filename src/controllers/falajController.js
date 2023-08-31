@@ -41,14 +41,28 @@ const getOneFalaj = async (req, res) => {
 const addOneFalaj = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const { date, description, amount } = data;
-    if (!date || !description || !amount) {
+    const {
+      falazName,
+      description,
+      falazLocation,
+      falazStartTime,
+      falazEndTime,
+    } = data;
+    if (
+      !falazName ||
+      !description ||
+      !falazLocation ||
+      !falazStartTime ||
+      !falazEndTime
+    ) {
       return res.status(400).send("Incomplete Inputs");
     }
     const formattedData = {
-      date,
+      falazName,
       description,
-      amount,
+      falazLocation,
+      falazStartTime,
+      falazEndTime,
       timestamp: Timekoto(),
     };
     const result = await falajesCollection.insertOne(formattedData);
