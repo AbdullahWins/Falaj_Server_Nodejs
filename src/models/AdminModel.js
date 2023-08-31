@@ -22,12 +22,12 @@ class AdminModel {
     return admin;
   }
 
-  static async createAdmin(fullName, email, accountNumber, password) {
+  static async createAdmin({ fullName, email, accountNumber, hashedPassword }) {
     const newAdmin = {
       fullName,
       email,
       accountNumber,
-      password,
+      password: hashedPassword,
       timestamp: Timekoto(),
     };
     const result = await adminsCollection.insertOne(newAdmin);

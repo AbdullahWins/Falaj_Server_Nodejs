@@ -56,13 +56,14 @@ const RegisterOwner = async (req, res) => {
     }
     //create a new owner
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newOwner = await OwnerModel.createOwner(
+    const newOwnerData = {
       fullName,
       email,
       hashedPassword,
       falajName,
-      legalDocumentUrl
-    );
+      legalDocumentUrl,
+    };
+    const newOwner = await OwnerModel.createOwner(newOwnerData);
     res.status(201).json(newOwner);
   } catch (error) {
     console.error(error);
