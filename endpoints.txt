@@ -39,15 +39,10 @@ router.patch("/users/reset", updateUserPasswordByEmail);
 router.patch("/users/resetpassword/:email", updateUserPasswordByOldPassword);
 router.delete("/users/delete/:id", deleteUserById);
 
+
 //falaj
-router.get("/owners/find/:id", getOneOwner);
-router.get("/owners/delete/:id", deleteOwnerById);
-router.get("/owners", getAllOwners);
-router.get("/owners/types/:typeName", getOwnersByType);
-router.post("/owners/register", RegisterOwner);
-router.post("/owners/login", LoginOwner);
-router.patch("/owners/edit/:id", updateOwnerById);
-router.post("/owners/reset", sendPasswordResetLink);
-router.patch("/owners/resetpassword/:email", updateOwnerPasswordByOldPassword);
-router.patch("/owners/reset", updateOwnerPasswordByEmail);
-router.delete("/owners/delete/:id", deleteOwnerById);
+router.get("/falajes", getAllFalajes);
+router.get("/falajes/find/:id", getOneFalaj);
+router.post("/falajes/add", addOneFalaj); = { falazName, description, falazLocation, falazStartTime, falazEndTime }
+router.patch("/falajes/update/:id", updateFalajById);
+router.delete("/falajes/delete/:id", deleteOneFalajById);
