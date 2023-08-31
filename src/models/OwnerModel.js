@@ -23,17 +23,17 @@ class OwnerModel {
     return owner;
   }
 
-  static async createOwner(
+  static async createOwner({
     fullName,
     email,
-    password,
+    hashedPassword,
     falajName,
-    legalDocumentUrl
-  ) {
+    legalDocumentUrl,
+  }) {
     const newOwner = {
       fullName,
       email,
-      password,
+      password: hashedPassword,
       falajName,
       legalDocumentUrl,
       status: "inactive",

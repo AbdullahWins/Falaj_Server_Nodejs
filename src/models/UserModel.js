@@ -21,8 +21,13 @@ class UserModel {
     return user;
   }
 
-  static async createUser(fullName, email, password) {
-    const newUser = { fullName, email, password, timestamp: Timekoto() };
+  static async createUser({ fullName, email, hashedPassword }) {
+    const newUser = {
+      fullName,
+      email,
+      password: hashedPassword,
+      timestamp: Timekoto(),
+    };
     console.log(newUser);
     const result = await usersCollection.insertOne(newUser);
     const createdUser = {

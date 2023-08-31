@@ -47,12 +47,8 @@ const RegisterAdmin = async (req, res) => {
     }
     // create a new Admin
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await AdminModel.createAdmin(
-      fullName,
-      email,
-      accountNumber,
-      hashedPassword
-    );
+    const newAdminData = { fullName, email, accountNumber, hashedPassword };
+    const newAdmin = await AdminModel.createAdmin(newAdminData);
     res.status(201).json(newAdmin);
   } catch (error) {
     console.error(error);
