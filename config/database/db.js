@@ -18,6 +18,7 @@ const adminsCollection = db.collection("adminsCollection");
 const ownersCollection = db.collection("ownersCollection");
 const usersCollection = db.collection("usersCollection");
 const falajesCollection = db.collection("falajesCollection");
+const privacyPoliciesCollection = db.collection("privacyPoliciesCollection");
 
 module.exports = {
   connect,
@@ -25,4 +26,5 @@ module.exports = {
   ownersCollection,
   usersCollection,
   falajesCollection,
+  privacyPoliciesCollection,
 };
