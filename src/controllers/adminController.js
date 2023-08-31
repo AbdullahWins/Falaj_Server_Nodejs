@@ -40,7 +40,7 @@ const LoginAdmin = async (req, res) => {
 const RegisterAdmin = async (req, res) => {
   try {
     const data = JSON.parse(req?.body?.data);
-    const { fullName, email, password } = data;
+    const { fullName, email, accountNumber, password } = data;
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
       return res.status(409).json({ error: "Admin already exists" });
@@ -50,6 +50,7 @@ const RegisterAdmin = async (req, res) => {
     const newAdmin = await AdminModel.createAdmin(
       fullName,
       email,
+      accountNumber,
       hashedPassword
     );
     res.status(201).json(newAdmin);

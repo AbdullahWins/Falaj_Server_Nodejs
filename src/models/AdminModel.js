@@ -3,11 +3,12 @@ const { adminsCollection } = require("../../config/database/db");
 const { Timekoto } = require("timekoto");
 
 class AdminModel {
-  constructor(id, fullName, email, password) {
+  constructor(id, fullName, email, accountNumber, password) {
     this._id = id;
     this.fullName = fullName;
     this.email = email;
     this.password = password;
+    this.accountNumber = accountNumber;
   }
 
   static async findByEmail(email) {
@@ -21,8 +22,14 @@ class AdminModel {
     return admin;
   }
 
-  static async createAdmin(fullName, email, password) {
-    const newAdmin = { fullName, email, password, timestamp: Timekoto() };
+  static async createAdmin(fullName, email, accountNumber, password) {
+    const newAdmin = {
+      fullName,
+      email,
+      accountNumber,
+      password,
+      timestamp: Timekoto(),
+    };
     const result = await adminsCollection.insertOne(newAdmin);
     const createdAdmin = {
       _id: result.insertedId,
