@@ -1,0 +1,23 @@
+owner Sign Up - name, email, password, falazName (), legalDocuments (), accountNumber
+
+Sign in - email, password
+
+Forgot Paassword - email
+
+Falaz - name , description, location (string),  ownedTime, ownerName, ownerEmail, ownerID[], falazID, falazTime, userID[]
+ 
+Falaz Sell Request -  falazID, falazName, falazLocation, falazStartTime, falazEndTime, ownedStartTime, ownedEndTime, ownerID, rentStartTime, rentEndTime, rentAmount, status- Approved, Pending, Cancelled
+
+Owner Profile - name, email, password, legalDocuments (), wallet
+
+Edit Owner Profile - name, email, accountNumber
+
+Falaz Rent Request -  name, location, falazID, ownerID, userID, startTime, endTime, description, rentAmount, status, accountNumberSender, accountNumberReceiver, branch, state (Need this to be confirmed via UI)
+
+User Profile - name, email, password, 
+
+Edit User Profile - name, email, accountNumber
+
+Privacy Policy - Link
+
+Terms - Link
