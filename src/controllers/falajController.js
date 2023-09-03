@@ -47,13 +47,15 @@ const addOneFalaj = async (req, res) => {
       falazLocation,
       falazStartTime,
       falazEndTime,
+      falajOwners,
     } = data;
     if (
       !falazName ||
       !description ||
       !falazLocation ||
       !falazStartTime ||
-      !falazEndTime
+      !falazEndTime ||
+      !falajOwners
     ) {
       return res.status(400).send("Incomplete Inputs");
     }
@@ -63,6 +65,7 @@ const addOneFalaj = async (req, res) => {
       falazLocation,
       falazStartTime,
       falazEndTime,
+      falajOwners,
       timestamp: Timekoto(),
     };
     const result = await falajesCollection.insertOne(formattedData);
